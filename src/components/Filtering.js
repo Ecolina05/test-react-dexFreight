@@ -11,9 +11,7 @@ function Filtering(props) {
     })
 
     const handleEnterSearch = e => {
-        if (e.key === 'Enter') {
-            props.handlerSearch(search, filter)
-        }
+        props.handlerSearch(search, filter)
     }
 
     const handleChangeSearch = e => {

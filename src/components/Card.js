@@ -4,7 +4,7 @@ class Card extends React.Component {
     render() {
         //Props
         const { id, name, flag, capital, languages, continent, currencies } = this.props;
-        
+
         //List
         const listLang = languages.map((language, index) => {
             return <span key={index}> ({language.iso639_2}) </span>
@@ -19,7 +19,7 @@ class Card extends React.Component {
                     {/* Name and flag */}
                     <h5 className="card-title">
                         <span>{name}</span>
-                        <img src={flag} className="flag mt-n2 float-right" alt="flag" />
+                        <img src={flag} className="flag mt-n2 rounded-circle float-right" alt="flag" />
                     </h5><hr />
                     {/* Capital */}
                     <div className="row my-1">
@@ -41,12 +41,15 @@ class Card extends React.Component {
                         <div className="col-sm-5 font-weight-bold">Currencies:</div>
                         <div className="col-sm-7">{listCurrencies}</div>
                     </div>
+
+                </div>
+                <div className="card-footer">
                     {/* Detail */}
-                    <div className="row mt-2">
+                    <div className="row">
                         <div className="col-sm-12">
-                            <button className="btn btn-primary w-100" data-toggle="modal" data-target={`#mdl${id}`}>
+                            <a href="!#" className="card-link w-100 text-center stretched-link" data-toggle="modal" data-target={`#mdl${id}`}>
                                 Details <i className="far fa-eye ml-2"></i>
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
