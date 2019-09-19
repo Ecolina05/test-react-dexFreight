@@ -1,50 +1,70 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-class Filtering extends React.Component {
+function Filtering(props) {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            search: ''
+    const [search, setSearch] = useState({
+        search: ''
+    });
+
+    const [filter, setFilter] = useState({
+        filter: ''
+    })
+
+    const handleEnterSearch = e => {
+        if (e.key === 'Enter') {
+            props.handlerSearch(search, filter)
         }
     }
 
-    render() {
-        let handleChange = (e) => {
-            this.setState({
-                search: e.target.value
-            })
-        }
+    const handleChangeSearch = e => {
+        setSearch({
+            search: e.target.value
+        })
+    }
 
-        const { handlerSearch } = this.props;
-        const { search } = this.state;
+    const handleChangeFilter = e => {
+        setFilter({
+            filter: e.target.value
+        })
+    }
 
-        return (
-            <div className="row my-2">
-                {/* Search by name */}
-                <div className="col-sm-8 my-1">
-                    <label className="font-weight-bold">Search by name</label>
-                    <div className="input-group">
-                        <input id="search" className="form-control" placeholder="For example: united" type="search" aria-label="Search" autoComplete="off" onChange={handleChange} value={search} />
-                        <button className="btn btn-success" onClick={() => handlerSearch(search)}>
-                            <i className="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-                {/* Filtering */}
-                <div className="col-sm-4 my-1">
-                    <label className="font-weight-bold">Filtering:</label>
-                    <select className="form-control">
-                        <option value="">---</option>
-                        <option value="">Laguange</option>
-                        <option value="">Continent</option>
-                        <option value="">Capital City</option>
-                        <option value="">Calling code</option>
-                    </select>
+    return (
+        <div className="row my-2">
+            {/* Search by name */}
+            <div className="col-sm-8 my-1">
+                <label className="font-weight-bold">Search</label>
+                <div className="input-group">
+                    {/* Input Search */}
+                    <input id="search"
+                        className="form-control"
+                        placeholder="For example: united"
+                        type="search" aria-label="Search"
+                        autoComplete="off"
+                        onChange={handleChangeSearch}
+                        onKeyUp={handleEnterSearch}
+                    />
+                    {/* Button */}
+                    <button
+                        className="btn btn-success"
+                        onClick={() => props.handlerSearch(search, filter)}>
+                        <i className="fas fa-search"></i>
+                    </button>
                 </div>
             </div>
-        );
-    }
+            {/* Filtering */}
+            <div className="col-sm-4 my-1">
+                <label className="font-weight-bold">Filtering:</label>
+                <select className="form-control" onChange={handleChangeFilter} multiple="">
+                    <option value="0">---</option>
+                    <option value="1">Name</option>
+                    <option value="2">Laguange</option>
+                    <option value="3">Continent</option>
+                    <option value="4">Capital City</option>
+                    <option value="5">Calling code</option>
+                </select>
+            </div>
+        </div>
+    );
 }
 
 export default Filtering;

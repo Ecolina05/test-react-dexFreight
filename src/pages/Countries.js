@@ -9,25 +9,65 @@ function Countries() {
         countries: []
     })
 
-    const getData = () => {
+    const getDataAll = () => {
         axios
             .get('https://restcountries.eu/rest/v2/all')
             .then(res => {
-                console.log(res.data);
                 setCountries({
                     countries: res.data
                 })
+            })
+            .catch(error => {
+                console.log(`Ha ocurrido un error ${error}`);
             });
     }
 
-    let handlerSearch = (search) => {
-        console.log(search);
+    const getDataFilter = (filter, value) => {
+        axios
+            .get(`https://restcountries.eu/rest/v2/${filter}/${value}`)
+            .then(res => {
+                setCountries({
+                    countries: res.data
+                })
+            })
+            .catch(error => {
+                alert('No results');
+            });
     }
 
+    const handlerSearch = (search, filter) => {
+        let f = parseInt(filter.filter);
+        let s = search.search;
 
+        if (s === '') {
+            alert('Empty search field, all result will be listed.');
+            getDataAll();
+        } else {
+            switch (f) {
+                case 1:
+                    getDataFilter('name', s);
+                    break;
+                case 2:
+                    getDataFilter('lang', s);
+                    break;
+                case 3:
+                    getDataFilter('region', s);
+                    break;
+                case 4:
+                    getDataFilter('capital', s);
+                    break;
+                case 5:
+                    getDataFilter('callingcode', s);
+                    break;
+                default:
+                    alert('Select an option to filter.');
+            }
+
+        }
+    }
 
     useEffect(() => {
-        getData();
+        getDataAll();
     }, []);
 
     return (
@@ -39,22 +79,35 @@ function Countries() {
                         {
                             countries.countries.map((data, index) => {
                                 return (
-                                    <li className="list-group-item mr-2 mt-2 rounded-sm" key={index}>
-                                        <Card
-                                            flag={data.flag}
-                                            name={data.name}
-                                            capital={data.capital}
-                                            languages={data.languages}
-                                            continent={data.region}
-                                            currencies={data.currencies}
-                                        />
-                                    </li>
+                                    <div>
+                                        <li className="list-group-item mr-2 mt-2 rounded-sm" key={index}>
+                                            <Card
+                                                id={index}
+                                                flag={data.flag}
+                                                name={data.name}
+                                                capital={data.capital}
+                                                languages={data.languages}
+                                                continent={data.region}
+                                                currencies={data.currencies}
+                                            />
+                                            <Modal
+                                                id={index}
+                                                flag={data.flag}
+                                                name={data.name}
+                                                topLevelDomain={data.topLevelDomain}
+                                                alpha3Code={data.alpha3Code}
+                                                subregion={data.subregion}
+                                                population={data.population}
+                                                borders={data.borders}
+                                                languages={data.languages}
+                                            />
+                                        </li>
+                                    </div>
                                 );
                             })
                         }
                     </div>
                 </ul >
-                <Modal />
             </div>
         </div>
     );

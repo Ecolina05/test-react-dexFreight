@@ -3,15 +3,16 @@ import React from 'react';
 class Card extends React.Component {
     render() {
         //Props
-        const { name, flag, capital, languages, continent, currencies } = this.props;
-        //Languages
-        const listLang = languages.map(language => {
-            return <span> ({language.iso639_2}) </span>
+        const { id, name, flag, capital, languages, continent, currencies } = this.props;
+        
+        //List
+        const listLang = languages.map((language, index) => {
+            return <span key={index}> ({language.iso639_2}) </span>
         });
-        //Currencies
-        const listCurrencies = currencies.map(currencie => {
-            return <span> ({currencie.code}) </span>
+        const listCurrencies = currencies.map((currencie, index) => {
+            return <span key={index}> ({currencie.code}) </span>
         })
+
         return (
             <div className="card">
                 <div className="card-body">
@@ -43,7 +44,7 @@ class Card extends React.Component {
                     {/* Detail */}
                     <div className="row mt-2">
                         <div className="col-sm-12">
-                            <button className="btn btn-primary w-100" data-toggle="modal" data-target="#mdlDetails">
+                            <button className="btn btn-primary w-100" data-toggle="modal" data-target={`#mdl${id}`}>
                                 Details <i className="far fa-eye ml-2"></i>
                             </button>
                         </div>
